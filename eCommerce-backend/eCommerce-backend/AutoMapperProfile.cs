@@ -12,6 +12,8 @@ namespace eCommerce_backend
             CreateMap<AddActorDto, Actor>();
             CreateMap<Producer, GetProducersDto>();
             CreateMap<AddProducerDto, Producer>();
+            CreateMap<Cinema, GetCinemasDto>();
+            CreateMap<AddCinemaDto, Cinema>();
         }
     }
 }
