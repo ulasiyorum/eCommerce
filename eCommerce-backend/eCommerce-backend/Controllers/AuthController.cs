@@ -37,7 +37,7 @@ namespace eCommerce_backend.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateUser(UserUpdateDto user)
         {
             return Ok(await authRepo.UpdateUser(user));
