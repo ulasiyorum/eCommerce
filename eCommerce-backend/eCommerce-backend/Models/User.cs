@@ -6,6 +6,6 @@
         public string Username { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];
-        public List<int>? OwnedMovies { get; set; }
+        public List<Movie>? OwnedMovies { get; set; }
     }
 }

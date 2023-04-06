@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
-        public List<int>? OwnedMovies { get; set; }
+        public List<Movie>? OwnedMovies { get; set; }
     }
 }
