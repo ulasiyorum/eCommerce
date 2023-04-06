@@ -10,6 +10,8 @@ namespace eCommerce_backend
         {
             CreateMap<Actor, GetActorsDto>();
             CreateMap<AddActorDto, Actor>();
+            CreateMap<Producer, GetProducersDto>();
+            CreateMap<AddProducerDto, Producer>();
         }
     }
 }

@@ -55,6 +55,10 @@ namespace eCommerce_backend.Services.ActorService
             try
             {
                 var actor = await context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+
+                if (actor is null)
+                    throw new Exception("Actor with Id:" + id + " is not found");
+
                 response.Data = mapper.Map<GetActorsDto>(actor);
             }
             catch(Exception ex)
@@ -98,6 +102,9 @@ namespace eCommerce_backend.Services.ActorService
                 _actor.ProfilePictureURL = actor.ProfilePictureURL;
                 _actor.Bio = actor.Bio;
                 _actor.Actors_Movies = actor.Actors_Movies;
+
+                await context.SaveChangesAsync();
+                response.Data = mapper.Map<GetActorsDto>(_actor);
             }
             catch(Exception ex)
             {
