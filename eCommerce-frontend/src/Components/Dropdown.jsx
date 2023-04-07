@@ -1,9 +1,18 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Listbox } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-export default function Dropdown({options}) {
+export default function Dropdown({options,setForm,type}) {
     const [selected, setSelected] = useState({item:options[0],label:'Select an option'});
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if(selected.label != "Select an option")
+        {
+            setForm((prevForm) => {
+                return {...prevForm,[`${type}`]:value}
+            });
+        }
+    },[selected]);
 
     return (
         <Listbox value={open} onChange={() => setOpen(!open)}>
