@@ -5,6 +5,8 @@ import getAllGenres from "../src/lib/genres";
 import Input from "../src/Components/Input";
 import CheckboxList from "../src/Components/CheckboxList";
 import getAllActors from "../src/lib/actors";
+import getAllProducers from "../src/lib/producers";
+import getAllCinemas from "../src/lib/cinemas";
 
 export default function AddForm({user,addState}) {
 
@@ -25,7 +27,8 @@ function AddMovie({form,setForm}) {
 
     const [genres,setGenres] = useState(null);
     const [actors, setActors] = useState(null);
-
+    const [producers, setProducers] = useState(null);
+    const[cinemas,setCinemas] = useState(null);
     useEffect(() => {
     const getGenres = async () => {
         const _genres = await getAllGenres();
@@ -40,11 +43,31 @@ function AddMovie({form,setForm}) {
         const _actors = await getAllActors();
         setActors(_actors.data);
     }
+    const getProducers = async () => {
+        const _producers = await getAllProducers();
+        setProducers(_producers.data);
+    }
+    const getCinemas = async () => {
+        const _cinemas = await getAllCinemas();
+        setCinemas(_cinemas.data);
+    }
+    getCinemas();
+    getProducers();
     getActors();
     getGenres();
     },[]);
-    console.log(form);
-    return !genres || !actors ? (<div>Loading..</div>) : (
+    const producerNames = [];
+    const cinemaNames = [];
+    if(producers != null)
+    producers.forEach((value) => {
+        producerNames.push(value.name);
+    });
+    if(cinemas != null)
+    cinemas.forEach((value) => {
+        cinemaNames.push(value.name);
+    });
+
+    return !genres || !actors || !producers || !cinemas ? (<div>Loading..</div>) : (
         <div className="w-screen h-screen flex flex-row">
             <div className="m-auto">
                 <div className="w-1/2">
@@ -73,11 +96,11 @@ function AddMovie({form,setForm}) {
                 <div className="m-auto">
                     <div>
                         <h1 className="my-4 mx-auto">Producer:</h1>
-                        <Dropdown type="genre" setForm={setForm} options={genres}/>
+                        <Dropdown type="producer" setForm={setForm} options={producerNames}/>
                     </div>
-                    <div className="w-1/2">
-                        <h1 className="my-4 mx-auto">Cinema:</h1>
-                        <Dropdown type="genre" setForm={setForm} options={genres}/>
+                    <div>
+                        <h1 className="my-4 mx-auto">Cinemas:</h1>
+                        <Dropdown type="cinema" setForm={setForm} options={cinemaNames}/>
                     </div>
                     <div>
                         <h1 className="my-4 mx-auto">Select Actors:</h1>

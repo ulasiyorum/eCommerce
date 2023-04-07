@@ -17,18 +17,18 @@ function CheckboxList({ values,setForm }) {
             return {...prevForm,actors:checkedItems}
         });
     },[checkedItems]);
-    
+
   return (
     <div className="grid grid-cols-2">
       {values.map((value, index) => (
         <label key={index} className="inline-flex mx-3 items-center mt-3">
           <input
             type="checkbox"
-            name={value}
+            name={value.name}
             onChange={handleCheckboxChange}
             className="form-checkbox h-5 w-5 text-blue-600"
           />
-          <span className="ml-2 text-gray-700">{value}</span>
+          <span className="ml-2 text-gray-700">{value.name}</span>
         </label>
       ))}
     </div>
