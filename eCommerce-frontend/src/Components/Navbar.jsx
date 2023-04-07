@@ -32,7 +32,7 @@ function Menu({user,setUser}) {
                 <div>
                     <div className="flex flex-row my-8">
                         {
-                        user == null ? (
+                        user.username == null ? (
                         <>
                         <RegisterModal setUser={setUser} className="bg-[#137D7B] border-solid border-2 drop-shadow-sm text-slate-50 rounded-lg w-24 text-center h-12 m-auto">Register</RegisterModal>
                         <Modal setUser={setUser} className="bg-[#137D7B] border-solid border-2 drop-shadow-sm text-slate-50 rounded-lg w-24 text-center h-12 m-auto">Log In</Modal>

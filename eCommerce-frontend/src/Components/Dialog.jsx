@@ -34,7 +34,7 @@ function Modal({className,setUser}) {
     return;
     const data = await login(email,password);
     if(data.success)
-      setUser(data);
+      setUser(data.data);
     else
       console.log("error: " + data.message);
 
@@ -156,7 +156,10 @@ export function RegisterModal({className,setUser}) {
           return;
 
           await register(email,password);
-          setUser(await login(email,password));
+
+          const data = await login(email,password);
+          if(data.success)
+            setUser(data.data);
 
           setIsOpen(false);
         };

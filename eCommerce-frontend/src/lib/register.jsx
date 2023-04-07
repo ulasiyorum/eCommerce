@@ -11,5 +11,5 @@ export default async function register(name,pass) {
         }
       });
 
-    return data.json().data;
+    return data.json();
 }

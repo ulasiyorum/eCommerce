@@ -10,5 +10,5 @@ export default async function login(name,pass) {
         }
       });
     
-    return data.json().data;
+    return data.json();
 }
