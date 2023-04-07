@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function CheckboxList({ values,setForm }) {
+function CheckboxList({ values,setForm,type }) {
   const [checkedItems, setCheckedItems] = useState([]);
 
   const handleCheckboxChange = (event) => {
@@ -14,7 +14,7 @@ function CheckboxList({ values,setForm }) {
 
     useEffect(() => {
         setForm((prevForm) => {
-            return {...prevForm,actors:checkedItems}
+            return {...prevForm,[`${type}`]:checkedItems}
         });
     },[checkedItems]);
 
@@ -24,11 +24,11 @@ function CheckboxList({ values,setForm }) {
         <label key={index} className="inline-flex mx-3 items-center mt-3">
           <input
             type="checkbox"
-            name={value.name}
+            name={value}
             onChange={handleCheckboxChange}
             className="form-checkbox h-5 w-5 text-blue-600"
           />
-          <span className="ml-2 text-gray-700">{value.name}</span>
+          <span className="ml-2 text-gray-700">{value}</span>
         </label>
       ))}
     </div>

@@ -58,6 +58,7 @@ function AddMovie({form,setForm}) {
     },[]);
     const producerNames = [];
     const cinemaNames = [];
+    const actorNames = [];
     if(producers != null)
     producers.forEach((value) => {
         producerNames.push(value.name);
@@ -66,14 +67,14 @@ function AddMovie({form,setForm}) {
     cinemas.forEach((value) => {
         cinemaNames.push(value.name);
     });
+    if(actors != null)
+    actors.forEach((value) => {
+        actorNames.push(value.name);
+    });
 
     return !genres || !actors || !producers || !cinemas ? (<div>Loading..</div>) : (
         <div className="w-screen h-screen flex flex-row">
             <div className="m-auto">
-                <div className="w-1/2">
-                    <h1 className="my-4 mx-auto">Genre:</h1>
-                    <Dropdown type="genre" setForm={setForm} options={genres}/>
-                </div>
                 <div className="w-1/2">
                 <h1 className="my-4 mx-auto">Movie Name:</h1>
                 <Input type="title" setForm={setForm}/>
@@ -90,7 +91,10 @@ function AddMovie({form,setForm}) {
                 <h1 className="my-4 mx-auto">Movie Price:</h1>
                 <Input type="price" variant="number" setForm={setForm}/>
                 </div>
-
+                <div>
+                        <h1 className="my-4 mx-auto">Select Genres:</h1>
+                        <CheckboxList setForm={setForm} type="genres" values={genres}/>
+                </div>
             </div>
             <div className="m-auto">
                 <div className="m-auto">
@@ -104,7 +108,7 @@ function AddMovie({form,setForm}) {
                     </div>
                     <div>
                         <h1 className="my-4 mx-auto">Select Actors:</h1>
-                        <CheckboxList setForm={setForm} values={actors}/>
+                        <CheckboxList type="genres" setForm={setForm} values={actorNames}/>
                     </div>
                 </div>
             </div>

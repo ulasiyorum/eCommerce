@@ -3,6 +3,6 @@
     public class UserUpdateDto
     {
         public string Username { get; set; } = string.Empty;
-        public List<Movie>? OwnedMovies { get; set; }
+        public List<int>? OwnedMovies { get; set; }
     }
 }

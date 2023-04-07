@@ -1,4 +1,6 @@
-﻿using eCommerce_backend.Dtos.User;
+﻿using AutoMapper.QueryableExtensions;
+using eCommerce_backend.Dtos.User;
+using eCommerce_backend.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,6 +11,7 @@ namespace eCommerce_backend.Data
     {
         private readonly DataContext context;
         private readonly IConfiguration configuration;
+
         public AuthRepository(DataContext c, IConfiguration conf)
         {
             context = c;
@@ -37,10 +40,9 @@ namespace eCommerce_backend.Data
                 {
                     Id = user.Id,
                     Username = user.Username,
-                    OwnedMovies = user.OwnedMovies
+                    OwnedMovies = user.OwnedMovies!.Select(m => m.Id).ToList()
                 };
             }
-
             return response;
         }
 
@@ -126,6 +128,23 @@ namespace eCommerce_backend.Data
             }
             return false;
         }
+        private List<Movie> FindMovies(List<int> ids)
+        {
+            List<Movie> movs = new();
+            foreach(int id in ids)
+            {
+                foreach(var movie in context.Movies)
+                {
+                    if(movie.Id == id)
+                    {
+                        movs.Add(movie);
+                        break;
+                    }
+                }
+            }
+
+            return movs;
+        }
 
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UserUpdateDto update)
         {
@@ -137,14 +156,14 @@ namespace eCommerce_backend.Data
                 if (user is null)
                     throw new Exception("User not found");
 
-                user.OwnedMovies = update.OwnedMovies;
+                user.OwnedMovies = FindMovies(update.OwnedMovies!);
                 await context.SaveChangesAsync();
 
                 response.Data = new GetUserDto()
                 {
                     Username = user.Username,
                     Id = user.Id,
-                    OwnedMovies = user.OwnedMovies
+                    OwnedMovies = user.OwnedMovies.Select(m => m.Id).ToList()
                 };
             }
             catch (Exception ex)

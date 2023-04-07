@@ -7,6 +7,6 @@ namespace eCommerce_backend.Dtos.Actor
         public string Name { get; set; } = string.Empty;
         public string ProfilePictureURL { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
-        public List<Actor_Movie>? Actors_Movies { get; set; }
+        public List<int>? Movies { get; set; }
     }
 }

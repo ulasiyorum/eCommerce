@@ -102,10 +102,8 @@ namespace eCommerce_backend.Services.MovieService
                     throw new Exception("Movie with Id:" + movie.Id + " is not found");
 
                 _movie.Price = movie.Price;
-                _movie.Producer = movie.Producer;
                 _movie.ProducerId = movie.ProducerId;
-                _movie.Actors_Movies = movie.Actors_Movies;
-                _movie.Cinema = movie.Cinema;
+                _movie.Actors = movie.Actors!.Select(id => context.Actors.FirstOrDefault(a => a.Id == id)).ToList()!;
                 _movie.CinemaId = movie.CinemaId;
                 _movie.DatePublished = movie.DatePublished;
                 _movie.Description = movie.Description;

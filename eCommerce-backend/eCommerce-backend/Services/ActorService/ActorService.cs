@@ -101,7 +101,7 @@ namespace eCommerce_backend.Services.ActorService
                 _actor.Name = actor.Name;
                 _actor.ProfilePictureURL = actor.ProfilePictureURL;
                 _actor.Bio = actor.Bio;
-                _actor.Actors_Movies = actor.Actors_Movies;
+                _actor.Movies = actor.Movies!.Select(id => context.Movies.FirstOrDefault(a => a.Id == id)).ToList()!;
 
                 await context.SaveChangesAsync();
                 response.Data = mapper.Map<GetActorsDto>(_actor);

@@ -1,4 +1,8 @@
-﻿namespace eCommerce_backend.Services.ProducerService
+﻿using eCommerce_backend.Models;
+using System.Collections.Specialized;
+using System.ComponentModel;
+
+namespace eCommerce_backend.Services.ProducerService
 {
     public class ProducerService : IProducerService
     {
@@ -104,7 +108,7 @@
 
                 _producer.ProfilePictureURL = producer.ProfilePictureURL;
                 _producer.Name = producer.Name;
-                _producer.Movies = producer.Movies;
+                _producer.Movies = producer.Movies!.Select(id => context.Movies.FirstOrDefault(a => a.Id == id)).ToList()!;
                 _producer.Bio = producer.Bio;
 
                 await context.SaveChangesAsync();

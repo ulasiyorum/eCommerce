@@ -93,7 +93,7 @@ namespace eCommerce_backend.Services.CinemaService
                 _cinema.ServiceRate = cinema.ServiceRate;
                 _cinema.CinemaLogo = cinema.CinemaLogo;
                 _cinema.Name = cinema.Name;
-                _cinema.Movies = cinema.Movies;
+                _cinema.Movies = cinema.Movies!.Select(id => context.Movies.FirstOrDefault(a => a.Id == id)).ToList()!;
 
                 await context.SaveChangesAsync();
                 response.Data = mapper.Map<GetCinemasDto>(_cinema);
