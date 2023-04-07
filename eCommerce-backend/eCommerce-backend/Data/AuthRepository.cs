@@ -15,9 +15,9 @@ namespace eCommerce_backend.Data
             configuration = conf;
         }
 
-        public async Task<ServiceResponse<string>> Login(string username, string password)
+        public async Task<ServiceResponse<GetUserDto>> Login(string username, string password)
         {
-            var response = new ServiceResponse<string>();
+            var response = new ServiceResponse<GetUserDto>();
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
             
 
@@ -33,7 +33,12 @@ namespace eCommerce_backend.Data
             }
             else
             {
-                response.Data = CreateToken(user);
+                response.Data = new GetUserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    OwnedMovies = user.OwnedMovies
+                };
             }
 
             return response;

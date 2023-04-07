@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import register from '../lib/register';
+import login from '../lib/login';
 
-function Modal({className}) {
+function Modal({className,setUser}) {
 
     const [isOpen, setIsOpen] = useState(false); 
     const [email, setEmail] = useState('');
@@ -22,10 +24,21 @@ function Modal({className}) {
     setPassword(e.target.value);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // perform login logic here
+    if(password.length < 5)
+    return;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email) && email != "admin")
+    return;
+    const data = await login(email,password);
+    if(data.success)
+      setUser(data);
+    else
+      console.log("error: " + data.message);
+
+      setIsOpen(false);
   };
 
   return (
@@ -71,7 +84,7 @@ function Modal({className}) {
                     Email
                   </label>
                   <input
-                    type="email"
+
                     id="email"
                     name="email"
                     className="w-full rounded-md border-solid border-2 border-black  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-4 py-2"
@@ -112,7 +125,7 @@ function Modal({className}) {
 
 export default Modal;
 
-export function RegisterModal({className}) {
+export function RegisterModal({className,setUser}) {
         const [isOpen, setIsOpen] = useState(false);
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
@@ -133,10 +146,19 @@ export function RegisterModal({className}) {
           setPassword(e.target.value);
         };
       
-        const handleFormSubmit = (e) => {
+        const handleFormSubmit = async (e) => {
           e.preventDefault();
-      
-          // perform login logic here
+          
+          if(password.length < 5)
+          return;
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if(!emailRegex.test(email))
+          return;
+
+          await register(email,password);
+          setUser(await login(email,password));
+
+          setIsOpen(false);
         };
       
         return (

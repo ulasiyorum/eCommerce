@@ -1,11 +1,21 @@
-import Modal, { RegisterModal } from "./Components/Dialog"
+import { useState } from "react";
 import Navbar from "./Components/Navbar"
 
 function App() {
-
+  const [user, setUser] = useState(null);
   return (
     <>
-      <Navbar/>
+      <Navbar user={user} setUser={setUser}/>
+      {
+        user.username == "admin" ?
+        (
+          <>
+          <AdminNavbar/>
+          </>
+        ) : (
+          <></>
+        )
+      }
     </>
   )
 }
