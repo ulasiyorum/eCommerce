@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Listbox } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-export default function Dropdown({options,setForm,type}) {
+export default function Dropdown({options,setForm,type,idNameList}) {
     const [selected, setSelected] = useState({item:options[0],label:'Select an option'});
     const [open, setOpen] = useState(false);
 
@@ -9,7 +9,7 @@ export default function Dropdown({options,setForm,type}) {
         if(selected.label != "Select an option")
         {
             setForm((prevForm) => {
-                return {...prevForm,[`${type}`]:value}
+                return {...prevForm,[`${type}`]:findIdByName(selected.item,idNameList)}
             });
         }
     },[selected]);
@@ -50,3 +50,15 @@ export default function Dropdown({options,setForm,type}) {
         </Listbox>
       );
   }
+
+  
+function findIdByName(name,idNameList) {
+
+  let id = 0;
+  idNameList.forEach(element => {
+    if(element.name == name)
+      id = element.id;
+  });
+
+  return id;
+}

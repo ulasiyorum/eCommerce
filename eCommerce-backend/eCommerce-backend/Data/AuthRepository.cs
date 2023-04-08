@@ -40,7 +40,7 @@ namespace eCommerce_backend.Data
                 {
                     Id = user.Id,
                     Username = user.Username,
-                    OwnedMovies = user.OwnedMovies!.Select(m => m.Id).ToList()
+                    OwnedMovies = user.OwnedMovies?.Select(m => m.Id).ToList()
                 };
             }
             return response;

@@ -8,7 +8,7 @@ namespace eCommerce_backend.Dtos.MovieDto
         public string ImageURL { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
-        public MovieType Genre { get; set; }
+        public int Genre { get; set; }
         public DateTime DatePublished { get; set; }
 
         public List<int>? Actors { get; set; }

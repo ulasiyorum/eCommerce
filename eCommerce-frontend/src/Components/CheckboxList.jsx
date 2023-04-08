@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
-function CheckboxList({ values,setForm,type }) {
+function CheckboxList({ values,setForm,type,valueIdNames }) {
   const [checkedItems, setCheckedItems] = useState([]);
 
   const handleCheckboxChange = (event) => {
-        if(!checkedItems.includes(event.target.name))
+        if(!checkedItems.includes(findIdByName(event.target.name,valueIdNames)))
         {
-            setCheckedItems([...checkedItems,event.target.name]);
+            setCheckedItems([...checkedItems,findIdByName(event.target.name,valueIdNames)]);
         }
         else
-            setCheckedItems(checkedItems.filter((val) => val !== event.target.name));    
+            setCheckedItems(checkedItems.filter((val) => { val != findIdByName(event.target.name,valueIdNames)}));    
     };
 
     useEffect(() => {
@@ -33,6 +33,17 @@ function CheckboxList({ values,setForm,type }) {
       ))}
     </div>
   );
+}
+
+function findIdByName(name,idNameList) {
+
+  let id = 0;
+  idNameList.forEach(element => {
+    if(element.name == name)
+      id = element.id;
+  });
+
+  return id;
 }
 
 export default CheckboxList;
