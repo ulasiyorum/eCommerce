@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes,Route, useNavigate } from "react-router-dom"
-import HomePage from "../Pages/HomePage";
-import AddForm from "../Pages/AddForm";
+import HomePage from "./Pages/HomePage";
+import AddForm from "./Pages/AddForm";
 
 function App() {
   const [user, setUser] = useState({username:null});

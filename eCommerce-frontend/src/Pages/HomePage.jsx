@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import AdminNavbar from "../src/Components/AdminNavbar";
-import Navbar from "../src/Components/Navbar";
-import { getAllMovies } from "../src/lib/movies";
+import AdminNavbar from "../Components/AdminNavbar";
+import Navbar from "../Components/Navbar";
+import { getAllMovies } from "../lib/movies";
 
 
 export default function HomePage({user,setUser,setAddState}) {
@@ -20,7 +20,7 @@ export default function HomePage({user,setUser,setAddState}) {
     return (
         <div className="flex flex-row">
         <Navbar user={user} setUser={setUser}/>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-screen h-screen">
         {
           user.username == "admin" ?
           (
@@ -29,6 +29,7 @@ export default function HomePage({user,setUser,setAddState}) {
             <></>
           )
         }
+        <div className="flex flex-wrap">
         {
           !movies ? (<div>Loading...</div>) : 
           (
@@ -38,6 +39,7 @@ export default function HomePage({user,setUser,setAddState}) {
           )
         }
         </div>
+        </div>
       </div>
     );
 }
@@ -45,10 +47,9 @@ export default function HomePage({user,setUser,setAddState}) {
 function MovieCard({title,img,price}) {
 
   return(
-    <div className="w-20 h-20 flex flex-col">
-      <img src={img}/>
-      <h1>{title}</h1>
-      <h1>{price + "$"}</h1>
+    <div className="flex flex-col" style={{margin:"10px"}}>
+      <img style={{width:"300px",height:"500px",objectFit:"cover"}} className="rounded-lg block shadow-sm border-black border-2 overflow-hidden" src={img}/>
+      <span className="mx-auto my-4 text-3xl">{title + " " + price + "$"}</span>
     </div>
   );
 }

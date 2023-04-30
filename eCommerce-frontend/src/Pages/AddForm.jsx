@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Dropdown from "../src/Components/Dropdown";
-import Unauthorized from "../src/Components/Unauthorized";
-import getAllGenres from "../src/lib/genres";
-import Input from "../src/Components/Input";
-import CheckboxList from "../src/Components/CheckboxList";
-import getAllActors, { sendActor } from "../src/lib/actors";
-import getAllProducers, { sendProducer } from "../src/lib/producers";
-import getAllCinemas, { sendCinema } from "../src/lib/cinemas";
-import addMovie, { getAllMovies } from "../src/lib/movies";
+import Dropdown from "../Components/Dropdown";
+import Unauthorized from "../Components/Unauthorized";
+import getAllGenres from "../lib/genres";
+import Input from "../Components/Input";
+import CheckboxList from "../Components/CheckboxList";
+import getAllActors, { sendActor } from "../lib/actors";
+import getAllProducers, { sendProducer } from "../lib/producers";
+import getAllCinemas, { sendCinema } from "../lib/cinemas";
+import addMovie, { getAllMovies } from "../lib/movies";
 
 
 
