@@ -9,6 +9,6 @@ namespace eCommerce_backend.Models
         public string Name { get; set; } = string.Empty;
         public string ProfilePictureURL { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
-        public List<Movie>? Movies { get; set; }
+        public List<ActorsMovies>? Movies { get; set; }
     }
 }
