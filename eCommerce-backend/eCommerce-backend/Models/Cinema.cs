@@ -9,5 +9,6 @@
         public int ServiceRate { get; set; } = 0;
 
         public List<Movie>? Movies { get; set; }
+        public List<CinemaComment> Comments { get; set; } = new List<CinemaComment>();
     }
 }

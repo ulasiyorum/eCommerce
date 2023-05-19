@@ -2,13 +2,9 @@
 
 namespace eCommerce_backend.Models
 {
-    public class Comment
+    public class MovieComment : IComment
     {
-        public int Id { get; set; }
-        public string Username { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public DateTime PostTime { get; set; }
-        public int Rate { get; set; }
+
 
         [ForeignKey(nameof(Models.Movie))]
         public int MovieId { get; set; }
@@ -17,5 +13,12 @@ namespace eCommerce_backend.Models
         [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
         public User? User { get; set; }
+
+        [Key]
+        public int Id { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public DateTime PostTime { get; set; } = DateTime.Now;
+        public int Rate { get; set; }
     }
 }

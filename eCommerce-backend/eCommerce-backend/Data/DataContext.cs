@@ -35,12 +35,12 @@ namespace eCommerce_backend.Data
                 .WithMany(p => p.Movies)
                 .HasForeignKey(m => m.ProducerId);
 
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<MovieComment>()
                 .HasOne(c => c.Movie)
                 .WithMany(m => m.Comments)
                 .HasForeignKey(c => c.MovieId);
 
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<MovieComment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId);
@@ -64,6 +64,6 @@ namespace eCommerce_backend.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Producer> Producers { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<MovieComment> Comments { get; set; }
     }
 }
