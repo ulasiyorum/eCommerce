@@ -8,7 +8,7 @@
         public byte[] PasswordSalt { get; set; } = new byte[0];
 
 
-        public List<Movie>? Movies { get; set; }
+        public List<UserMovies>? Movies { get; set; }
 
         public List<Comment>? Comments { get; set; }
     }
