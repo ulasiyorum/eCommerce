@@ -64,6 +64,9 @@ namespace eCommerce_backend.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Producer> Producers { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<MovieComment> Comments { get; set; }
+        public DbSet<MovieComment> MovieComments { get; set; }
+        public DbSet<CinemaComment> CinemaComments { get; set; }
+        public DbSet<UserMovies> UserMovies { get; set; }
+        public DbSet<ActorsMovies> ActorsMovies { get; set;}
     }
 }

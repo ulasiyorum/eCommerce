@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using eCommerce_backend.Dtos.User;
 using eCommerce_backend.Models;
+using eCommerce_backend.Services.TokensService;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,20 +10,22 @@ namespace eCommerce_backend.Data
 {
     public class AuthRepository : IAuthRepository
     {
+        private readonly ITokenService tokenService;
         private readonly DataContext context;
         private readonly IConfiguration configuration;
 
-        public AuthRepository(DataContext c, IConfiguration conf)
+        public AuthRepository(DataContext c, IConfiguration conf, ITokenService ts)
         {
             context = c;
             configuration = conf;
+            tokenService = ts;
         }
 
         public async Task<ServiceResponse<GetUserDto>> Login(string username, string password)
         {
             var response = new ServiceResponse<GetUserDto>();
             var user = await context.Users
-                .Include(nameof(UserMovies))
+                .Include(u => u.Movies)
                 .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
             
 
@@ -38,14 +41,25 @@ namespace eCommerce_backend.Data
             }
             else
             {
+                string refreshToken = tokenService.GenerateRefreshToken(user.Id, user.Username);
+                string accessToken = tokenService.GenerateAccessToken(refreshToken);
+
                 response.Data = new GetUserDto
                 {
                     Id = user.Id,
                     Username = user.Username,
                     OwnedMovies = user.Movies is not null ? user.Movies.Select(u => u.MovieId).ToList() : new List<int>(),
+                    RefreshToken = refreshToken,
+                    AccessToken = accessToken
                 };
+
             }
             return response;
+        }
+
+        public string GetAccessToken(string refresh)
+        {
+            return tokenService.GenerateAccessToken(refresh);
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHas, out byte[] passwordSalt)
@@ -65,37 +79,6 @@ namespace eCommerce_backend.Data
 
                 return computedHash.SequenceEqual(hash);
             }
-        }
-
-        private string CreateToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
-            };
-
-            var appSettingsToken = configuration.GetSection("AppSettings:Token").Value;
-
-            if (appSettingsToken is null)
-                throw new Exception("AppSettings Token Is Null");
-
-            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appSettingsToken));
-
-            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
         }
 
 
@@ -137,7 +120,7 @@ namespace eCommerce_backend.Data
             try
             {
                 var user = await context.Users
-                    .Include(nameof(UserMovies))
+                    .Include(u => u.Movies)
                     .FirstOrDefaultAsync(u => u.Username == update.Username);
 
                 if (user is null)

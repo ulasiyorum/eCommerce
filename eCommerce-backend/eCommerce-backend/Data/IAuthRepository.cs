@@ -8,5 +8,6 @@ namespace eCommerce_backend.Data
         Task<ServiceResponse<GetUserDto>> Login(string username, string password);
         Task<bool> UserExists(string username);
         Task<ServiceResponse<GetUserDto>> UpdateUser(UserUpdateDto update);
+        string GetAccessToken(string refresh);
     }
 }

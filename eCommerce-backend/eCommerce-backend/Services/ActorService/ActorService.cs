@@ -94,7 +94,7 @@ namespace eCommerce_backend.Services.ActorService
             try
             {
                 var _actor = await context.Actors
-                    .Include(nameof(ActorsMovies))
+                    .Include(a => a.Movies)
                     .FirstOrDefaultAsync(c => c.Id == actor.Id);
 
                 if (_actor is null)

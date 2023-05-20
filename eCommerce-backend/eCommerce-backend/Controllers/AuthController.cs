@@ -42,6 +42,12 @@ namespace eCommerce_backend.Controllers
         {
             return Ok(await authRepo.UpdateUser(user));
         }
+
+        [HttpGet("Access")]
+        public ActionResult<string> GetAccess(string refreshToken)
+        {
+            return Ok(authRepo.GetAccessToken(refreshToken));
+        }
     }
 }
 
