@@ -1,5 +1,6 @@
 ﻿using eCommerce_backend.Dtos.MovieDto;
 using eCommerce_backend.Models;
+using System.Numerics;
 
 namespace eCommerce_backend.Services.MovieService
 {
@@ -96,14 +97,21 @@ namespace eCommerce_backend.Services.MovieService
             var response = new ServiceResponse<GetMoviesDto>();
             try
             {
-                var _movie = await context.Movies.FirstOrDefaultAsync(m => m.Id == movie.Id);
+                var _movie = await context.Movies
+                    .Include(nameof(ActorsMovies))
+                    .FirstOrDefaultAsync(m => m.Id == movie.Id);
 
                 if (_movie is null)
                     throw new Exception("Movie with Id:" + movie.Id + " is not found");
 
                 _movie.Price = movie.Price;
                 _movie.ProducerId = movie.ProducerId;
-                _movie.Actors = movie.Actors!.Select(id => context.Actors.FirstOrDefault(a => a.Id == id)).ToList()!;
+
+                _movie.Actors
+                    .AddRange(movie.Actors
+                    .Select(id => new ActorsMovies { ActorId = id, MovieId = movie.Id })
+                    .Except(_movie.Actors));
+                _movie.Actors.RemoveAll(am => !movie.Actors.Contains(am.ActorId));
                 _movie.CinemaId = movie.CinemaId;
                 _movie.DatePublished = movie.DatePublished;
                 _movie.Description = movie.Description;

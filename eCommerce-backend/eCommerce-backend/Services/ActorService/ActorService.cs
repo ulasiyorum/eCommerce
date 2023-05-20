@@ -105,7 +105,11 @@ namespace eCommerce_backend.Services.ActorService
                 _actor.Bio = actor.Bio;
 
                 _actor.Movies ??= new List<ActorsMovies>();
-                _actor.Movies.AddRange(actor.Movies.Select(id => new ActorsMovies { ActorId = actor.Id, MovieId = id }).Except(_actor.Movies));
+                _actor.Movies
+                    .AddRange(actor.Movies
+                    .Select(id => new ActorsMovies { ActorId = actor.Id, MovieId = id })
+                    .Except(_actor.Movies));
+
                 _actor.Movies.RemoveAll(am => !actor.Movies.Contains(am.MovieId));
                 //_actor.Movies = actor.Movies!.Select(id => context.Movies.
                 //FirstOrDefault(a => a.Id == id).Actors).ToList()!;
