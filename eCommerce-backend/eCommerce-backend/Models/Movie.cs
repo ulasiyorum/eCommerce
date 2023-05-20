@@ -16,7 +16,7 @@ namespace eCommerce_backend.Models
 
         public List<UserMovies> Users { get; set; } = new List<UserMovies>();
 
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<MovieComment> Comments { get; set; } = new List<MovieComment>();
 
         [ForeignKey(nameof(Models.Cinema))]
         public int CinemaId { get; set; }

@@ -10,7 +10,7 @@
         public MovieType Genre { get; set; }
         public DateTime DatePublished { get; set; }
 
-        public List<int>? Actors { get; set; }
+        public List<int> Actors { get; set; } = new List<int>();
 
         public int CinemaId { get; set; }
 

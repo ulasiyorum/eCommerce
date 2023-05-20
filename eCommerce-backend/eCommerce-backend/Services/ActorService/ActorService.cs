@@ -93,7 +93,9 @@ namespace eCommerce_backend.Services.ActorService
             var response = new ServiceResponse<GetActorsDto>();
             try
             {
-                var _actor = await context.Actors.FirstOrDefaultAsync(c => c.Id == actor.Id);
+                var _actor = await context.Actors
+                    .Include(nameof(ActorsMovies))
+                    .FirstOrDefaultAsync(c => c.Id == actor.Id);
 
                 if (_actor is null)
                     throw new Exception("Actor with Id:" + actor.Id + " is not found");
@@ -101,7 +103,12 @@ namespace eCommerce_backend.Services.ActorService
                 _actor.Name = actor.Name;
                 _actor.ProfilePictureURL = actor.ProfilePictureURL;
                 _actor.Bio = actor.Bio;
-                _actor.Movies = actor.Movies!.Select(id => context.Movies.FirstOrDefault(a => a.Id == id)).ToList()!;
+
+                _actor.Movies ??= new List<ActorsMovies>();
+                _actor.Movies.AddRange(actor.Movies.Select(id => new ActorsMovies { ActorId = actor.Id, MovieId = id }).Except(_actor.Movies));
+                _actor.Movies.RemoveAll(am => !actor.Movies.Contains(am.MovieId));
+                //_actor.Movies = actor.Movies!.Select(id => context.Movies.
+                //FirstOrDefault(a => a.Id == id).Actors).ToList()!;
 
                 await context.SaveChangesAsync();
                 response.Data = mapper.Map<GetActorsDto>(_actor);

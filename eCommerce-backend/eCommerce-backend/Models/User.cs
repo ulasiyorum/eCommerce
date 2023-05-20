@@ -10,6 +10,6 @@
 
         public List<UserMovies>? Movies { get; set; }
 
-        public List<Comment>? Comments { get; set; }
+        public List<MovieComment>? Comments { get; set; }
     }
 }

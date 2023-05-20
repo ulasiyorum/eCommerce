@@ -21,7 +21,9 @@ namespace eCommerce_backend.Data
         public async Task<ServiceResponse<GetUserDto>> Login(string username, string password)
         {
             var response = new ServiceResponse<GetUserDto>();
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+            var user = await context.Users
+                .Include(nameof(UserMovies))
+                .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
             
 
             if(user is null)
@@ -40,7 +42,7 @@ namespace eCommerce_backend.Data
                 {
                     Id = user.Id,
                     Username = user.Username,
-                    OwnedMovies = user.OwnedMovies?.Select(m => m.Id).ToList()
+                    OwnedMovies = user.Movies is not null ? user.Movies.Select(u => u.MovieId).ToList() : new List<int>(),
                 };
             }
             return response;
@@ -151,19 +153,25 @@ namespace eCommerce_backend.Data
             var response = new ServiceResponse<GetUserDto>();
             try
             {
-                var user = await context.Users.FirstOrDefaultAsync(u => u.Username == update.Username);
+                var user = await context.Users
+                    .Include(nameof(UserMovies))
+                    .FirstOrDefaultAsync(u => u.Username == update.Username);
 
                 if (user is null)
                     throw new Exception("User not found");
 
-                user.OwnedMovies = FindMovies(update.OwnedMovies!);
+                user.Movies ??= new List<UserMovies>();
+                user.Movies.AddRange(update.OwnedMovies
+                    .Select(id => new UserMovies { UserId = user.Id, MovieId = id}).Except(user.Movies));
+                user.Movies.RemoveAll(mu => !update.OwnedMovies.Contains(mu.MovieId));
+
                 await context.SaveChangesAsync();
 
                 response.Data = new GetUserDto()
                 {
                     Username = user.Username,
                     Id = user.Id,
-                    OwnedMovies = user.OwnedMovies.Select(m => m.Id).ToList()
+                    OwnedMovies = user.Movies.Select(um => um.MovieId).ToList()
                 };
             }
             catch (Exception ex)
