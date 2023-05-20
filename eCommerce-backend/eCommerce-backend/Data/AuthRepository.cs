@@ -161,8 +161,11 @@ namespace eCommerce_backend.Data
                     throw new Exception("User not found");
 
                 user.Movies ??= new List<UserMovies>();
-                user.Movies.AddRange(update.OwnedMovies
-                    .Select(id => new UserMovies { UserId = user.Id, MovieId = id}).Except(user.Movies));
+                user.Movies
+                    .AddRange(update.OwnedMovies
+                    .Select(id => new UserMovies { UserId = user.Id, MovieId = id})
+                    .Except(user.Movies));
+
                 user.Movies.RemoveAll(mu => !update.OwnedMovies.Contains(mu.MovieId));
 
                 await context.SaveChangesAsync();
