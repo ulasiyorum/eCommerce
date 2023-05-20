@@ -1,7 +1,9 @@
 ﻿using eCommerce_backend.Services.CinemaService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerce_backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CinemasController : ControllerBase

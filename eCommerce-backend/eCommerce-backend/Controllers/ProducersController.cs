@@ -1,9 +1,11 @@
 ﻿global using Microsoft.AspNetCore.Mvc;
 global using eCommerce_backend.Services.ActorService;
 global using eCommerce_backend.Services.ProducerService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerce_backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProducersController : ControllerBase

@@ -130,23 +130,6 @@ namespace eCommerce_backend.Data
             }
             return false;
         }
-        private List<Movie> FindMovies(List<int> ids)
-        {
-            List<Movie> movs = new();
-            foreach(int id in ids)
-            {
-                foreach(var movie in context.Movies)
-                {
-                    if(movie.Id == id)
-                    {
-                        movs.Add(movie);
-                        break;
-                    }
-                }
-            }
-
-            return movs;
-        }
 
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UserUpdateDto update)
         {

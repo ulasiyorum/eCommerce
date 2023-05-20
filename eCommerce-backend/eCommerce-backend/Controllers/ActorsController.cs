@@ -1,10 +1,12 @@
 ﻿global using eCommerce_backend.Dtos.Actor;
 global using eCommerce_backend.Models;
 using eCommerce_backend.Services.ActorService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce_backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ActorsController : ControllerBase

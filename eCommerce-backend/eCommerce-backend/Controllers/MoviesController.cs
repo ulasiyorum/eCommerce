@@ -1,8 +1,10 @@
 ﻿using eCommerce_backend.Dtos.MovieDto;
 using eCommerce_backend.Services.MovieService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerce_backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase

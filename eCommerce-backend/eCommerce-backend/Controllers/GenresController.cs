@@ -1,7 +1,9 @@
 ﻿using eCommerce_backend.Services.GenreService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerce_backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class GenresController : ControllerBase
