@@ -5,6 +5,7 @@ using eCommerce_backend.Services.CinemaService;
 using eCommerce_backend.Services.GenreService;
 using eCommerce_backend.Services.MovieService;
 using eCommerce_backend.Services.TokensService;
+using eCommerce_backend.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -38,6 +39,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 });
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IGenreService, GenreService>();
