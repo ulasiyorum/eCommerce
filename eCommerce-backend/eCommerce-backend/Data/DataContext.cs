@@ -69,7 +69,7 @@ namespace eCommerce_backend.Data
                 .HasForeignKey(ci => ci.MovieId);
         }
 
-
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Cinema> Cinemas { get; set; }
