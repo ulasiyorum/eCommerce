@@ -13,7 +13,7 @@ namespace eCommerce_backend.Models
         public DateTime DatePublished { get; set; }
 
         public List<ActorsMovies> Actors { get; set; } = new List<ActorsMovies>();
-
+        public List<MoviePurchase> Purchases { get; set; } = new List<MoviePurchase>();
         public List<UserMovies> Users { get; set; } = new List<UserMovies>();
         public List<CartItem>? Cart { get; set; }
 
