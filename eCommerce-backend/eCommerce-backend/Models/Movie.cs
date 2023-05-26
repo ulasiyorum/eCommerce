@@ -11,7 +11,8 @@ namespace eCommerce_backend.Models
         public double Price { get; set; }
         public MovieType Genre { get; set; }
         public DateTime DatePublished { get; set; }
-
+        
+        public List<UserFavoriteMovies> UserFavoriteMoviesList { get; set; } = new List<UserFavoriteMovies>();
         public List<ActorsMovies> Actors { get; set; } = new List<ActorsMovies>();
         public List<MoviePurchase> Purchases { get; set; } = new List<MoviePurchase>();
         public List<UserMovies> Users { get; set; } = new List<UserMovies>();

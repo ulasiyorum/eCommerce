@@ -77,6 +77,16 @@ namespace eCommerce_backend.Data
                 .HasOne(mp => mp.Purchases)
                 .WithMany(p => p.Movies)
                 .HasForeignKey(mp => mp.PurchaseId);
+            
+            modelBuilder.Entity<UserFavoriteMovies>()
+                .HasOne(um => um.User)
+                .WithMany(u => u.FavoriteMoviesList)
+                .HasForeignKey(um => um.UserId);
+            
+            modelBuilder.Entity<UserFavoriteMovies>()
+                .HasOne(um => um.Movie)
+                .WithMany(m => m.UserFavoriteMoviesList)
+                .HasForeignKey(um => um.MovieId);
         }
         
         public DbSet<Purchases> Purchases { get; set; }
@@ -91,5 +101,6 @@ namespace eCommerce_backend.Data
         public DbSet<CinemaComment> CinemaComments { get; set; }
         public DbSet<UserMovies> UserMovies { get; set; }
         public DbSet<ActorsMovies> ActorsMovies { get; set;}
+        public DbSet<UserFavoriteMovies> UserFavoriteMovies { get; set; }
     }
 }
