@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\UserService\" />
     <Folder Include="Views\" />
   </ItemGroup>
 
