@@ -57,7 +57,18 @@ namespace eCommerce_backend.Data
                 .HasOne(um => um.User)
                 .WithMany(u => u.Movies)
                 .HasForeignKey(um => um.UserId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.User)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(ci => ci.UserId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Movie)
+                .WithMany(m => m.Cart)
+                .HasForeignKey(ci => ci.MovieId);
         }
+
 
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }

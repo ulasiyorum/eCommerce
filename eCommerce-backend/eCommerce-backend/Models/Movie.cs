@@ -15,6 +15,7 @@ namespace eCommerce_backend.Models
         public List<ActorsMovies> Actors { get; set; } = new List<ActorsMovies>();
 
         public List<UserMovies> Users { get; set; } = new List<UserMovies>();
+        public List<CartItem>? Cart { get; set; }
 
         public List<MovieComment> Comments { get; set; } = new List<MovieComment>();
 
