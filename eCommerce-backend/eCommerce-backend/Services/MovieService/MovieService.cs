@@ -71,7 +71,24 @@ namespace eCommerce_backend.Services.MovieService
             }
             return response;
         }
-
+        public async Task<ServiceResponse<List<GetMoviesDto>>> GetMoviesExceptOwned(int userId)
+        {
+            var response = new ServiceResponse<List<GetMoviesDto>>();
+            try
+            {
+                var movies = await context.Movies
+                    .Include(m => m.Users)
+                    .Where(m => m.Users.All(u => u.UserId != userId))
+                    .ToListAsync();
+                response.Data = movies.Select(m => mapper.Map<GetMoviesDto>(m)).ToList();
+            }
+            catch(Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
         public async Task<ServiceResponse<GetMoviesDto>> GetMovieById(int id)
         {
             var response = new ServiceResponse<GetMoviesDto>();

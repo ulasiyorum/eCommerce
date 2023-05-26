@@ -26,7 +26,13 @@ namespace eCommerce_backend.Controllers
         {
             return Ok(await service.GetMovieById(id));
         }
-
+        
+        [HttpGet("GetAll/Except/{userId}")]
+        public async Task<ActionResult<ServiceResponse<List<GetMoviesDto>>>> GetMoviesExceptUser(int userId)
+        {
+            return Ok(await service.GetMoviesExceptOwned(userId));
+        }
+        
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetMoviesDto>>>> AddMovie(AddMovieDto movie)
         {
