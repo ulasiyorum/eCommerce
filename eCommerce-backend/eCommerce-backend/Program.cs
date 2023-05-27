@@ -1,5 +1,6 @@
 global using eCommerce_backend.Data;
 global using Microsoft.EntityFrameworkCore;
+using eCommerce_backend.Services.CartService;
 using eCommerce_backend.Services.CinemaService;
 using eCommerce_backend.Services.GenreService;
 using eCommerce_backend.Services.MovieService;
@@ -38,7 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
