@@ -157,7 +157,7 @@ public class CartService : ICartService
         return response;
     }
 
-    public async Task<ServiceResponse<GetCartDto>> DeleteFromCart(int movieId)
+    public async Task<ServiceResponse<GetCartDto>> DeleteFromCart(int userId, int movieId)
     {
         var response = new ServiceResponse<GetCartDto>();
         try
@@ -165,7 +165,7 @@ public class CartService : ICartService
             var cart = _context.CartItems
                 .Include(ci => ci.Movie)
                 .Include(ci => ci.Movie.Actors)
-                .Where(ci => ci.MovieId == movieId)
+                .Where(ci => ci.MovieId == movieId && ci.UserId == userId)
                 .ToList();
 
             if (cart is null)
