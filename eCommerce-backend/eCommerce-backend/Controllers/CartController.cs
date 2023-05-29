@@ -16,7 +16,7 @@ public class CartController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetCartDto>>> Get(int id)
     {
         return Ok(await _service.GetCart(id));

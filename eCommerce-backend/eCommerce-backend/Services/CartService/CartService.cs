@@ -59,19 +59,34 @@ public class CartService : ICartService
         try
         {
             var cartItems = await _context.CartItems
+                .Where(ci => ci.UserId == cart.UserId)
                 .Include(ci => ci.Movie)
                 .Include(ci => ci.Movie.Actors)
-                .Where(ci => ci.UserId == cart.UserId)
                 .ToListAsync();
 
-            if (cartItems is null)
+            if (cartItems.Count == 0)
                 cartItems = new List<CartItem>();
+
+            await _context.Movies.ForEachAsync((value) =>
+            {
+                if (!cart.MovieIds.Contains(value.Id))
+                    throw new Exception("Movie with ID " + value.Id + " does not exist in the database.");
+            });
             
+            await _context.Users.ForEachAsync((user =>
+            {
+                if(user.Id == cart.UserId)
+                    return;
+                
+                throw new Exception("User with ID " + user.Id + " does not exist in the database.");
+            } ));
+
             cartItems.AddRange(cart.MovieIds.Select(m => new CartItem
             {
                 UserId = cart.UserId,
                 MovieId = m
             }).Except(cartItems));
+            
             cartItems.RemoveAll(item => !cart.MovieIds.Contains(item.MovieId));
 
             await _context.SaveChangesAsync();
@@ -120,8 +135,24 @@ public class CartService : ICartService
                 .Where(ci => ci.UserId == cartItem.UserId)
                 .ToListAsync();
 
-            if (cart is null)
+            if (cart.Count == 0)
                 cart = new List<CartItem>();
+
+            await _context.Movies.ForEachAsync((value) =>
+            {
+                if (value.Id == cartItem.MovieId)
+                    return;
+                
+                throw new Exception("Movie with ID " + value.Id + " does not exist in the database.");
+            });
+
+            await _context.Users.ForEachAsync((value) =>
+            {
+                if (value.Id == cartItem.UserId)
+                    return;
+                
+                throw new Exception("User with ID " + value.Id + " does not exist in the database.");
+            });
             
             cart.Add(new CartItem
             {
