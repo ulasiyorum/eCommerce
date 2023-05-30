@@ -23,8 +23,7 @@ namespace eCommerce_backend.Data
                 .HasOne(am => am.Actor)
                 .WithMany(m => m.Movies)
                 .HasForeignKey(am => am.ActorId);
-
-
+            
             modelBuilder.Entity<Movie>()
                 .HasOne(m => m.Cinema)
                 .WithMany(c => c.Movies)

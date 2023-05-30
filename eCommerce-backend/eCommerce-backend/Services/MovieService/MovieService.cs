@@ -1,6 +1,8 @@
 ﻿using eCommerce_backend.Dtos.MovieDto;
 using eCommerce_backend.Models;
 using System.Numerics;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace eCommerce_backend.Services.MovieService
 {
@@ -23,12 +25,13 @@ namespace eCommerce_backend.Services.MovieService
                 var _movie = mapper.Map<Movie>(movie);
                 context.Movies.Add(_movie);
                 await context.SaveChangesAsync();
+
                 response.Data = await context.Movies.Select(m => mapper.Map<GetMoviesDto>(m)).ToListAsync();
             }
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = ex.InnerException.Message;
             }
             return response;
         }

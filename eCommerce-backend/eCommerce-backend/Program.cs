@@ -4,6 +4,7 @@ using eCommerce_backend.Services.CartService;
 using eCommerce_backend.Services.CinemaService;
 using eCommerce_backend.Services.GenreService;
 using eCommerce_backend.Services.MovieService;
+using eCommerce_backend.Services.PurchaseHistoryService;
 using eCommerce_backend.Services.TokensService;
 using eCommerce_backend.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,6 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();

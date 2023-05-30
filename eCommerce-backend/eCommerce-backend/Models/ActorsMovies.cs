@@ -4,6 +4,7 @@ namespace eCommerce_backend.Models
 {
     public class ActorsMovies
     {
+        public int Id { get; set; }
         [ForeignKey(nameof(Models.Actor))]
         public int ActorId { get; set; }
         public Actor Actor { get; set; } = null!;
