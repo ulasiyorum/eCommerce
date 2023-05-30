@@ -8,9 +8,9 @@
         public byte[] PasswordSalt { get; set; } = new byte[0];
         public List<UserMovies>? Movies { get; set; }
         
-        public List<Purchases> PurchaseList { get; set; }
+        public List<Purchases> PurchaseList { get; set; } = new List<Purchases>();
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
-        public List<MovieComment>? Comments { get; set; }
-        public List<UserFavoriteMovies>? FavoriteMoviesList { get; set; }
+        public List<MovieComment> Comments { get; set; } = new List<MovieComment>();
+        public List<UserFavoriteMovies> FavoriteMoviesList { get; set; }   = new List<UserFavoriteMovies>();
     }
 }
