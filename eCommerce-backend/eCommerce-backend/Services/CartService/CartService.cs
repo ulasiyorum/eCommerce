@@ -138,27 +138,29 @@ public class CartService : ICartService
             if (cart.Count == 0)
                 cart = new List<CartItem>();
 
-            await _context.Movies.ForEachAsync((value) =>
-            {
-                if (value.Id == cartItem.MovieId)
-                    return;
-                
-                throw new Exception("Movie with ID " + value.Id + " does not exist in the database.");
-            });
+            var movie = await _context.Movies
+                .Include(m => m.Cart)
+                .FirstOrDefaultAsync(m => m.Id == cartItem.MovieId);
 
-            await _context.Users.ForEachAsync((value) =>
-            {
-                if (value.Id == cartItem.UserId)
-                    return;
-                
-                throw new Exception("User with ID " + value.Id + " does not exist in the database.");
-            });
+            if (movie is null)
+                throw new Exception("Movie with ID: " + cartItem.MovieId + " does not exist in the database.");
             
-            cart.Add(new CartItem
+            var user = await _context.Users
+                .Include(u => u.CartItems)
+                .FirstOrDefaultAsync(u => u.Id == cartItem.UserId);
+
+            if (user is null)
+                throw new Exception("User with ID: " + cartItem.UserId + " does not exist in the database.");
+
+            var item = new CartItem
             {
                 UserId = cartItem.UserId,
                 MovieId = cartItem.MovieId
-            });
+            };
+            
+            user.CartItems.Add(item);
+            movie.Cart.Add(item);
+            cart.Add(item);
 
             await _context.SaveChangesAsync();
 

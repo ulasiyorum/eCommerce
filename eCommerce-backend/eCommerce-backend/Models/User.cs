@@ -9,7 +9,7 @@
         public List<UserMovies>? Movies { get; set; }
         
         public List<Purchases> PurchaseList { get; set; }
-        public List<CartItem>? CartItems { get; set; }
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         public List<MovieComment>? Comments { get; set; }
         public List<UserFavoriteMovies>? FavoriteMoviesList { get; set; }
     }
