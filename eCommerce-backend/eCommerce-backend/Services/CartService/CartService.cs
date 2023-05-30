@@ -72,15 +72,20 @@ public class CartService : ICartService
                 if (!cart.MovieIds.Contains(value.Id))
                     throw new Exception("Movie with ID " + value.Id + " does not exist in the database.");
             });
-            
-            await _context.Users.ForEachAsync((user =>
-            {
-                if(user.Id == cart.UserId)
-                    return;
-                
-                throw new Exception("User with ID " + user.Id + " does not exist in the database.");
-            } ));
 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == cart.UserId);
+
+            if (user is null)
+                throw new Exception("User with ID " + cart.UserId + " does not exist in the database.");
+
+            user.CartItems.AddRange(cart.MovieIds.Select(m => new CartItem
+            {
+                UserId = cart.UserId,
+                MovieId = m
+            }).Except(user.CartItems));
+
+            user.CartItems.RemoveAll(item => !cart.MovieIds.Contains(item.MovieId));
+            
             cartItems.AddRange(cart.MovieIds.Select(m => new CartItem
             {
                 UserId = cart.UserId,
