@@ -1,9 +1,12 @@
 using eCommerce_backend.Dtos.Purchase;
 using eCommerce_backend.Services.PurchaseHistoryService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce_backend.Controllers;
-
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
 public class PurchaseController : ControllerBase
 {
     private readonly IPurchaseService _service;

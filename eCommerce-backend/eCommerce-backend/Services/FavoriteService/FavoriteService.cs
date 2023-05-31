@@ -23,6 +23,7 @@ public class FavoriteService : IFavoriteService
             if (user is null)
                 throw new Exception("User Not Found");
             var movie = await _context.Movies
+                .Include(m => m.Actors)
                 .Include(m => m.UserFavoriteMoviesList)
                 .FirstOrDefaultAsync(m => m.Id == favoriteDto.MovieId);
             if (movie is null)
@@ -35,7 +36,22 @@ public class FavoriteService : IFavoriteService
             };
             
             await _context.UserFavoriteMovies.AddAsync(userFavoriteMovie);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
+
+            response.Data = new GetMoviesDto
+            {
+                Actors = movie.Actors.Select(a => a.ActorId).ToList(),
+                Description = movie.Description,
+                Genre = movie.Genre,
+                Id = movie.Id,
+                Price = movie.Price,
+                Title = movie.Title,
+                CinemaId = movie.CinemaId,
+                DatePublished = movie.DatePublished,
+                ProducerId = movie.ProducerId
+            };
+
+
         }
         catch (Exception e)
         {
