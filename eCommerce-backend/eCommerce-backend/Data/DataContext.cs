@@ -77,6 +77,11 @@ namespace eCommerce_backend.Data
                 .WithMany(p => p.Movies)
                 .HasForeignKey(mp => mp.PurchaseId);
             
+            modelBuilder.Entity<Purchases>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.PurchaseList)
+                .HasForeignKey(p => p.UserId);
+            
             modelBuilder.Entity<UserFavoriteMovies>()
                 .HasOne(um => um.User)
                 .WithMany(u => u.FavoriteMoviesList)

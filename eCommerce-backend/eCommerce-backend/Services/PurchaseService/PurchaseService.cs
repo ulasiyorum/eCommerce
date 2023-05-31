@@ -22,9 +22,6 @@ public class PurchaseService : IPurchaseService
                 .Include(p => p.Movies).ThenInclude(m => m.Movie)
                 .Where(p => p.UserId == id).ToListAsync();
 
-            if (purchases is null)
-                purchases = new List<Purchases>();
-
             response.Data = purchases.Select(p => new GetPurchaseDto
             {
                 PurchaseDate = p.PurchaseDate,
@@ -32,7 +29,7 @@ public class PurchaseService : IPurchaseService
                 Movies = p.Movies.Select(m => new GetMoviesDto
                 {
                     Id = m.MovieId,
-                    Title = m.Movie.Title,
+                    Title = m.Movie!.Title,
                     Description = m.Movie.Description,
                     Price = m.Movie.Price,
                     ImageURL = m.Movie.ImageURL,
