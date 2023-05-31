@@ -62,13 +62,78 @@ public class FavoriteService : IFavoriteService
         return response;
     }
 
-    public Task<ServiceResponse<List<GetMoviesDto>>> GetFavoriteMoviesByUserId(int id)
+    public async Task<ServiceResponse<List<GetMoviesDto>>> GetFavoriteMoviesByUserId(int id)
     {
-        throw new NotImplementedException();
+        var response = new ServiceResponse<List<GetMoviesDto>>();
+        try
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteMoviesList)
+                .ThenInclude(m => m.Movie)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (user is null)
+                throw new Exception("User Not Found");
+            response.Data = user.FavoriteMoviesList.Select(m => new GetMoviesDto
+            {
+                Actors = m.Movie!.Actors.Select(a => a.ActorId).ToList(),
+                Description = m.Movie.Description,
+                Genre = m.Movie.Genre,
+                Id = m.Movie.Id,
+                Price = m.Movie.Price,
+                Title = m.Movie.Title,
+                CinemaId = m.Movie.CinemaId,
+                DatePublished = m.Movie.DatePublished,
+                ProducerId = m.Movie.ProducerId
+            }).ToList();
+        }
+        catch (Exception e)
+        {
+            response.Success = false;
+            response.Message = e.Message;
+        }
+
+        return response;
     }
 
-    public Task<ServiceResponse<GetMoviesDto>> Delete(int userId, int movieId)
+    public async Task<ServiceResponse<List<GetMoviesDto>>> Delete(int userId, int movieId)
     {
-        throw new NotImplementedException();
+        var response = new ServiceResponse<List<GetMoviesDto>>();
+        try
+        {
+            var user = await _context.Users
+                .Include(u => u.FavoriteMoviesList)
+                .ThenInclude(m => m.Movie)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            
+            if(user is null)
+                throw new Exception("User Not Found");
+            
+            var item = user.FavoriteMoviesList.FirstOrDefault(m => m.MovieId == movieId);
+            if(item is null)
+                throw new Exception("Movie does not exist in the favorite list");
+            
+            user.FavoriteMoviesList.Remove(item);
+            await _context.SaveChangesAsync();
+
+            response.Data = user.FavoriteMoviesList.Select(fm => new GetMoviesDto
+            {
+                Actors = fm.Movie!.Actors.Select(a => a.ActorId).ToList(),
+                Description = fm.Movie.Description,
+                Genre = fm.Movie.Genre,
+                Id = fm.Movie.Id,
+                Price = fm.Movie.Price,
+                Title = fm.Movie.Title,
+                CinemaId = fm.Movie.CinemaId,
+                DatePublished = fm.Movie.DatePublished,
+                ProducerId = fm.Movie.ProducerId
+            }).ToList();
+        }
+        catch (Exception e)
+        {
+            response.Success = false;
+            response.Message = e.Message;
+        }
+
+        return response;
     }
 }

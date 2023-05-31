@@ -29,7 +29,7 @@ public class FavoriteController : ControllerBase
     }
     
     [HttpDelete("{userId}/{movieId}")]
-    public async Task<ActionResult<ServiceResponse<GetMoviesDto>>> Delete(int userId,int movieId)
+    public async Task<ActionResult<ServiceResponse<List<GetMoviesDto>>>> Delete(int userId,int movieId)
     {
         return Ok(await _service.Delete(userId,movieId));
     }

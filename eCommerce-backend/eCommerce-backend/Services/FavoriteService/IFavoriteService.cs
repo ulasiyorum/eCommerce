@@ -6,5 +6,5 @@ public interface IFavoriteService
 {
     Task<ServiceResponse<GetMoviesDto>> Add(AddFavoriteDto favoriteDto);
     Task<ServiceResponse<List<GetMoviesDto>>> GetFavoriteMoviesByUserId(int id);
-    Task<ServiceResponse<GetMoviesDto>> Delete(int userId,int movieId);
+    Task<ServiceResponse<List<GetMoviesDto>>> Delete(int userId,int movieId);
 }
