@@ -10,35 +10,37 @@ namespace eCommerce_backend.Controllers
     [Route("api/[controller]")]
     public class ProducersController : ControllerBase
     {
-        private readonly IProducerService service;
+        private readonly IProducerService _service;
         public ProducersController(IProducerService service)
         {
-            this.service = service;
+            this._service = service;
         }
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetProducersDto>>>> Get()
         {
-            return Ok(await service.GetAllProdcucers());
+            return Ok(await _service.GetAllProdcucers());
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetProducersDto>>> GetById(int id)
         {
-            return Ok(await service.GetProducerById(id));
+            return Ok(await _service.GetProducerById(id));
         }
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetProducersDto>>>> AddProducer(AddProducerDto producer)
         {
-            return Ok(await service.AddProducer(producer));
+            return Ok(await _service.AddProducer(producer));
         }
+
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<GetProducersDto>>> UpdateProducer(UpdateProducerDto producer)
         {
-            return Ok(await service.UpdateProducer(producer));
+            return Ok(await _service.UpdateProducer(producer));
         }
+
         [HttpDelete]
         public async Task<ActionResult<ServiceResponse<List<GetProducersDto>>>> DeleteProducer(int id)
         {
-            return Ok(await service.DeleteProducer(id));
+            return Ok(await _service.DeleteProducer(id));
         }
 
     }
